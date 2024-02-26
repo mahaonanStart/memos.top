@@ -189,7 +189,7 @@ function updateHTMl(data) {
     var memoResult = "", resultAll = "";
 
     // 解析 TAG 标签，添加样式
-    const TAG_REG = /#([^\s#]+?) /g;
+    const TAG_REG = /(#\w+)/g;
 
     // 解析 BiliBili
     const BILIBILI_REG = /<a\shref="https:\/\/www\.bilibili\.com\/video\/((av[\d]{1,10})|(BV([\w]{10})))\/?">.*<\/a>/g;
@@ -219,8 +219,9 @@ function updateHTMl(data) {
 
     // Memos Content
     for (var i = 0; i < data.length; i++) {
-        var memoContREG = data[i].content
-            .replace(TAG_REG, "<span class='tag-span'><a rel='noopener noreferrer' href='#$1'>#$1</a></span>")
+        var memoContREG = data[i].content.replace(regex, function(match) {
+            return `<span class='tag-span'><a rel='noopener noreferrer' href='${match}'>${match}</a></span>`;
+        });
 
         // For CJK language users
         // 用 PanguJS 自动处理中英文混合排版
