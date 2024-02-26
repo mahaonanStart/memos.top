@@ -219,7 +219,7 @@ function updateHTMl(data) {
 
     // Memos Content
     for (var i = 0; i < data.length; i++) {
-        var memoContREG = data[i].content.replace(regex, function(match) {
+        var memoContREG = data[i].content.replace(TAG_REG, function(match) {
             return `<span class='tag-span'><a rel='noopener noreferrer' href='${match}'>${match}</a></span>`;
         });
 
