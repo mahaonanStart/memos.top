@@ -70,7 +70,7 @@ var page = 1,
     offset = 0,
     nextLength = 0,
     nextDom = '';
-var tag='';
+var tag = '';
 var btnRemove = 0
 var memoDom = document.querySelector(memo.domId);
 var load = '<button class="load-btn button-load">努力加载中……</button>'
@@ -109,7 +109,7 @@ function getFirstList() {
 }
 // 预加载下一页数据
 function getNextList() {
-    if (tag){
+    if (tag) {
         var memoUrl_next = memoUrl + "&limit=" + limit + "&offset=" + offset + "&tag=" + tag;
     } else {
         var memoUrl_next = memoUrl + "&limit=" + limit + "&offset=" + offset;
@@ -131,10 +131,10 @@ function getNextList() {
 
 document.addEventListener('click', function (event) {
     var target = event.target;
-    if (target.tagName.toLowerCase() === 'a' && target.getAttribute('href').startsWith('#')) {    
+    if (target.tagName.toLowerCase() === 'a' && target.getAttribute('href').startsWith('#')) {
         event.preventDefault();
         tag = target.getAttribute('href').substring(1); // 获取标签名
-        if (btnRemove) {    // 如果 botton 被 remove
+        if (btnRemove) { // 如果 botton 被 remove
             btnRemove = 0;
             memoDom.insertAdjacentHTML('afterend', load);
             // 添加 button 事件监听器
@@ -149,15 +149,15 @@ document.addEventListener('click', function (event) {
                 }
                 getNextList()
             });
-            
-        }        
+
+        }
         getTagFirstList();
         var filterElem = document.getElementById('tag-filter');
-        filterElem.style.display = 'block';    // 显示过滤器
+        filterElem.style.display = 'block'; // 显示过滤器
         var tags = document.getElementById('tags');
         var tagresult = `Filter: <span class='tag-span'><a rel='noopener noreferrer' href=''>#${tag}</a></span>`
         tags.innerHTML = tagresult;
-        scrollTo(0,0);    // 回到顶部
+        scrollTo(0, 0); // 回到顶部
     }
 });
 
@@ -186,10 +186,11 @@ function getTagFirstList() {
 
 // 插入 html
 function updateHTMl(data) {
-    var memoResult = "", resultAll = "";
+    var memoResult = "",
+        resultAll = "";
 
     // 解析 TAG 标签，添加样式
-    const TAG_REG = /(#\w+)/g;
+    const TAG_REG = /(#[^\s#]+)/g;
 
     // 解析 BiliBili
     const BILIBILI_REG = /<a\shref="https:\/\/www\.bilibili\.com\/video\/((av[\d]{1,10})|(BV([\w]{10})))\/?">.*<\/a>/g;
@@ -213,13 +214,15 @@ function updateHTMl(data) {
         langPrefix: 'language-',
         highlight: function (code, lang) {
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
+            return hljs.highlight(code, {
+                language
+            }).value;
         },
     });
 
     // Memos Content
     for (var i = 0; i < data.length; i++) {
-        var memoContREG = data[i].content.replace(TAG_REG, function(match) {
+        var memoContREG = data[i].content.replace(TAG_REG, function (match) {
             return `<span class='tag-span'><a rel='noopener noreferrer' href='${match}'>${match}</a></span>`;
         });
 
@@ -241,7 +244,9 @@ function updateHTMl(data) {
         // 解析内置资源文件
         if (data[i].resourceList && data[i].resourceList.length > 0) {
             var resourceList = data[i].resourceList;
-            var imgUrl = '', resUrl = '', resImgLength = 0;
+            var imgUrl = '',
+                resUrl = '',
+                resImgLength = 0;
             for (var j = 0; j < resourceList.length; j++) {
                 var resType = resourceList[j].type.slice(0, 5);
                 var resexlink = resourceList[j].externalLink;
@@ -250,7 +255,7 @@ function updateHTMl(data) {
                     resLink = resexlink
                 } else {
                     fileId = resourceList[j].publicId || resourceList[j].filename
-                    resLink = memos+'/o/r/'+resourceList[j].id+'/'+fileId
+                    resLink = memos + '/o/r/' + resourceList[j].id + '/' + fileId
                 }
                 if (resType == 'image') {
                     imgUrl += '<div class="resimg"><img loading="lazy" src="' + resLink + '"/></div>'
@@ -262,7 +267,9 @@ function updateHTMl(data) {
             }
             if (imgUrl) {
                 var resImgGrid = ""
-                if (resImgLength !== 1) { var resImgGrid = "grid grid-" + resImgLength }
+                if (resImgLength !== 1) {
+                    var resImgGrid = "grid grid-" + resImgLength
+                }
                 memoContREG += '<div class="resource-wrapper "><div class="images-wrapper">' + imgUrl + '</div></div>'
             }
             if (resUrl) {
@@ -286,7 +293,7 @@ function updateHTMl(data) {
 // 解析豆瓣必须要API，请找朋友要权限，或自己按 https://github.com/eallion/douban-api-rs 这个架设 API，非常简单，资源消耗很少
 // 已内置样式，修改 API 即可使用
 function fetchDB() {
-    var dbAPI = "https://api.example.com/";  // 修改为自己的 API
+    var dbAPI = "https://api.example.com/"; // 修改为自己的 API
     var dbA = document.querySelectorAll(".timeline a[href*='douban.com/subject/']:not([rel='noreferrer'])") || '';
     if (dbA) {
         for (var i = 0; i < dbA.length; i++) {
@@ -322,7 +329,7 @@ function fetchDB() {
                     bookShow(dbHref, this_item)
                 }
             }
-        }// for end
+        } // for end
     }
 }
 
@@ -402,3 +409,39 @@ themeToggle.addEventListener("click", () => {
         );
 });
 // Darkmode End
+
+
+// 获取搜索框元素
+var searchBox = document.getElementById('search-box');
+
+
+searchBox.addEventListener('input', debounce(triggerClickEvent, 300));
+
+// 防抖函数
+function debounce(func, wait) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            func.apply(context, args);
+        }, wait);
+    };
+}
+
+function triggerClickEvent() {
+    var query = searchBox.value;
+    if (query) {
+        tag = query;
+        var filterElem = document.getElementById('tag-filter');
+        filterElem.style.display = 'block'; // 显示过滤器
+        var tags = document.getElementById('tags');
+        var tagresult = `Filter: <span class='tag-span'><a rel='noopener noreferrer' href=''>#${query}</a></span>`
+        tags.innerHTML = tagresult;
+        scrollTo(0, 0); // 回到顶部
+        getTagFirstList();
+    } else {
+        tag = ''
+        getFirstList();
+    }
+}
