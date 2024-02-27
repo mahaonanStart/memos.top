@@ -630,3 +630,20 @@ footer {
     align-items: center;
 }
 
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer a {
+    font-size: 10px;
+    color: var(--color-main);  /* 使用你已经定义的颜色变量 */
+    text-decoration: none;  /* 去除链接下划线 */
+    transition: color 0.3s ease;  /* 添加颜色过渡效果 */
+}
+
+.footer a:hover {
+    color: var(--color-link);  /* 使用你已经定义的颜色变量 */
+}
+
