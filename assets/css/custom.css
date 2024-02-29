@@ -1,3 +1,6 @@
+body {
+    font-family: "LXGW WenKai Screen";
+}
 .tagged-text {
     display: inline-block;
     padding: 2px; 
@@ -8,7 +11,9 @@
     transition: all 0.3s ease;
     line-height: 1.5; /* 设置行高以垂直居中文字 */
     color: #fff;
+    font-family: "YouYuan";
 }
+
 
 @media (prefers-color-scheme: dark) {
     .tagged-text {
