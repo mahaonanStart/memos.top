@@ -351,7 +351,43 @@ blockquote {
     display: block;
     vertical-align: middle;
     max-width: 100%;
-    cursor: pointer;
+    cursor: pointer;ƒ.tagged-text {
+    display: inline-block;
+    padding: 0; /* 移除内边距 */
+    border-radius: 4px;
+    font-size: 0.8rem; /* 增加字体大小 */
+    margin: 0 0 10px 10px;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px;
+    transition: all 0.3s ease;
+    line-height: 1.2; /* 设置行高以垂直居中文字 */
+    color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    .tagged-text {
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+    }
+
+    .tagged-text:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .tagged-text {
+        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .tagged-text:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+    }
+}
+
     -o-object-fit: cover;
     object-fit: cover;
 }
