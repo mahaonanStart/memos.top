@@ -294,6 +294,7 @@ function updateHTMl(data) {
     //取消这行注释解析豆瓣电影和豆瓣阅读
     // fetchDB()
     document.querySelector('button.button-load').textContent = '加载更多';
+    hljs.highlightAll();
 }
 // Memos End
 
